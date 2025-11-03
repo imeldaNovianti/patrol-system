@@ -1,18 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function NavBar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem('user')) || {};
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
-    <nav className="bg-blue-700 text-white flex justify-between px-6 py-3">
-      <div className="font-semibold">Safety Patrol System</div>
-      <div className="flex gap-4">
-        <Link to="/">Dashboard</Link>
-        <Link to="/patrols">Patrol</Link>
-        <Link to="/findings">Findings</Link>
-        <Link to="/reports">Laporan</Link>
-        <button
-          onClick={() => { localStorage.removeItem("auth"); window.location.href = "/login"; }}
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <h1>Safety Patrol System</h1>
+      </div>
+      <div className="navbar-menu">
+        <button 
+          className={`nav-btn ${isActive('/dashboard') ? 'active' : ''}`}
+          onClick={() => navigate('/dashboard')}
         >
+          Dashboard
+        </button>
+        <button 
+          className={`nav-btn ${isActive('/reports') ? 'active' : ''}`}
+          onClick={() => navigate('/reports')}
+        >
+          Reports
+        </button>
+        <button 
+          className={`nav-btn ${isActive('/report-form') ? 'active' : ''}`}
+          onClick={() => navigate('/report-form')}
+        >
+          New Report
+        </button>
+      </div>
+      <div className="navbar-user">
+        <span>Welcome, {user.fullname || user.username}</span>
+        <button onClick={logout} className="logout-btn">
           Logout
         </button>
       </div>

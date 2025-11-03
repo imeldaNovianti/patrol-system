@@ -1,16 +1,7 @@
 
-
--- ===========================================
--- SCHEMA FINAL UNTUK SISTEM SAFETY DASHBOARD
--- Tested on MySQL 8.0+, InnoDB + utf8mb4
--- ===========================================
-
 CREATE DATABASE IF NOT EXISTS patrol_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE patrol_db;
 
--- ==========================================================
--- 1️⃣  TABEL USERS
--- ==========================================================
 CREATE TABLE users (
   user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(100) NOT NULL UNIQUE,         -- login identifier
@@ -23,9 +14,6 @@ CREATE TABLE users (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ==========================================================
--- 2️⃣  TABEL SAFETY_PATROL
--- ==========================================================
 CREATE TABLE safety_patrol (
   patrol_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patrol_date DATE NOT NULL,
@@ -62,16 +50,13 @@ CREATE TABLE safety_patrol (
   INDEX idx_status_rank (STATUS, rank_before)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ==========================================================
--- 3️⃣  TABEL RANK_PROGRESS (History perubahan rank)
--- ==========================================================
 CREATE TABLE rank_progress (
   progress_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patrol_id INT UNSIGNED NOT NULL,
   old_rank ENUM('A','B','C') NOT NULL,
   new_rank ENUM('A','B','C','Safe') NOT NULL,
   change_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  changed_by INT UNSIGNED NULL,  -- ✅ boleh NULL karena ON DELETE SET NULL
+  changed_by INT UNSIGNED NULL,  --  boleh NULL karena ON DELETE SET NULL
   remarks TEXT,
   total_problem INT NULL,
   rank_a_total INT NULL,
@@ -91,9 +76,6 @@ CREATE TABLE rank_progress (
   INDEX idx_progress_patrol (patrol_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ==========================================================
--- 4️⃣  TABEL PERFORMANCE_SUMMARY (Rekap untuk grafik)
--- ==========================================================
 CREATE TABLE performance_summary (
   summary_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   period_start DATE NOT NULL,
@@ -112,9 +94,6 @@ CREATE TABLE performance_summary (
   INDEX idx_period (period_start, period_end)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ==========================================================
--- 5️⃣  TABEL ATTACHMENTS (File lampiran temuan)
--- ==========================================================
 CREATE TABLE attachments (
   attachment_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   patrol_id INT UNSIGNED NOT NULL,
@@ -134,6 +113,3 @@ CREATE TABLE attachments (
   INDEX idx_attach_patrol (patrol_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ==========================================================
--- ✅ Selesai schema. Siap digunakan.
--- ==========================================================
