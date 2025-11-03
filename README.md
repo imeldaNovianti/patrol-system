@@ -1,8 +1,7 @@
 # 🦺 Safety Patrol & 4M Analysis System
 
 Aplikasi web komprehensif untuk mengelola **laporan patroli keselamatan** dan **analisis 4M (Man, Machine, Method, Material)**.  
-Dibangun menggunakan **Next.js 15**, **TypeScript**, dan **Prisma**.
-
+Arsitektur: Frontend React.js + Backend PHP (MySQL via phpMyAdmin)
 ---
 
 ## ✨ Fitur Utama
